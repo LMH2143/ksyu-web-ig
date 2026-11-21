@@ -31,6 +31,8 @@ h1 { margin: 6px 0 2px; font-family: Georgia, "Times New Roman", serif; font-siz
 .russian-thumbnail img { object-fit: contain; object-position: center; }
 .book-thumbnail { background: #600e1b; }
 .book-thumbnail img { object-fit: contain; }
+.opora-thumbnail { background: #e4c6b5; }
+.not-who-thumbnail { background: #dce4eb; }
 .pilates-thumbnail { background: #ead0ba; }
 .pilates-thumbnail img { object-fit: contain; }
 .portfolio-thumbnail { background: #480a18; }
