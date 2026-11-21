@@ -37,6 +37,11 @@ h1 { margin: 6px 0 2px; font-family: Georgia, "Times New Roman", serif; font-siz
 .pilates-thumbnail img { object-fit: contain; }
 .portfolio-thumbnail { background: #480a18; }
 .portfolio-thumbnail img { object-fit: contain; }
+.portfolio-download { font: inherit; font-size: .75rem; color: var(--gold); background: transparent; border: 0; padding: 6px 12px; min-height: 44px; margin-top: -10px; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
+.portfolio-download:disabled { opacity: .65; cursor: wait; }
+.portfolio-download:focus-visible { outline: 2px solid var(--gold); border-radius: 8px; }
+.portfolio-status { margin: 0; text-align: center; font-size: .75rem; color: var(--gold); }
+.portfolio-status:empty { display: none; }
 .pdf-mark { flex-basis: 22px; font-size: .625rem; font-weight: 500; letter-spacing: .02em; }
 .message-help { margin-top: 12px; font-size: .75rem; color: #eee3d2; line-height: 1.5; }
 .message-help summary { cursor: pointer; padding: 8px 2px; text-align: center; list-style: none; text-decoration: underline; text-underline-offset: 3px; text-decoration-color: #b8a27e; }

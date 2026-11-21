@@ -5,8 +5,9 @@
       title: 'Ksyu — книга, красота, русский, пилатес',
       description: 'Моя книга Discipline, полировка волос, индивидуальные уроки русского, пилатес 1:1 и SMM-портфолио — все ссылки Ksyu в одном месте.',
       ogDescription: 'Discipline · Полировка волос · Russian with Ksyu · Пилатес 1:1 · SMM-портфолио',
-      portfolioCategory: 'СОЦИАЛЬНЫЕ СЕТИ', portfolioTitle: 'SMM-портфолио', portfolioNote: 'Кейсы и услуги · PDF на русском',
-      portfolioLabel: 'SMM-портфолио Ksyu — открыть PDF на русском в новой вкладке', portfolioAlt: 'Превью SMM-портфолио Ksyu',
+      portfolioCategory: 'СОЦИАЛЬНЫЕ СЕТИ', portfolioTitle: 'SMM-портфолио', portfolioNote: 'Новые кейсы и услуги · PDF',
+      portfolioLabel: 'SMM-портфолио Ksyu — открыть PDF в новой вкладке', portfolioAlt: 'Превью SMM-портфолио Ksyu',
+      portfolioDownload: 'Скачать PowerPoint с видео', portfolioLoading: 'Загрузка презентации…', portfolioError: 'Не удалось скачать презентацию. Попробуйте ещё раз.', portfolioReady: 'Презентация готова к скачиванию.',
       languageLabel: 'Выбор языка', linksLabel: 'Ссылки Ksyu',
       booksTitle: 'Мои книги', bookCategory: 'МОЯ КНИГА', hairCategory: 'КРАСОТА', russianCategory: 'РУССКИЙ ЯЗЫК', pilatesCategory: 'ДВИЖЕНИЕ',
       hairTitle: 'Записаться за полировку волос', hairNote: 'Напишите мне в Instagram',
@@ -29,8 +30,9 @@
       title: 'Ksyu — book, beauty, Russian, Pilates',
       description: 'My book Discipline, hair polishing, private Russian lessons, Pilates 1:1 and SMM portfolio — all Ksyu’s links in one place.',
       ogDescription: 'Discipline · Hair polishing · Russian with Ksyu · Pilates 1:1 · SMM portfolio',
-      portfolioCategory: 'SOCIAL MEDIA', portfolioTitle: 'SMM portfolio', portfolioNote: 'Work & services · PDF in English',
-      portfolioLabel: 'Ksyu’s SMM portfolio — open the English PDF in a new tab', portfolioAlt: 'Ksyu’s SMM portfolio preview',
+      portfolioCategory: 'SOCIAL MEDIA', portfolioTitle: 'SMM portfolio', portfolioNote: 'New cases & services · PDF in Russian',
+      portfolioLabel: 'Ksyu’s SMM portfolio — open the Russian PDF in a new tab', portfolioAlt: 'Ksyu’s SMM portfolio preview',
+      portfolioDownload: 'Download PowerPoint with videos', portfolioLoading: 'Downloading presentation…', portfolioError: 'Download failed. Please try again.', portfolioReady: 'Presentation ready to download.',
       languageLabel: 'Choose language', linksLabel: 'Ksyu’s links',
       booksTitle: 'My books', bookCategory: 'MY BOOK', hairCategory: 'BEAUTY', russianCategory: 'RUSSIAN LANGUAGE', pilatesCategory: 'MOVEMENT',
       hairTitle: 'Book a hair polishing appointment', hairNote: 'Message me on Instagram',
@@ -53,7 +55,9 @@
   let language = 'ru';
   let copyResult = null;
   const languageButtons = document.querySelectorAll('[data-language]');
-  const portfolioCard = document.querySelector('.portfolio-card');
+  const portfolioDownload = document.querySelector('.portfolio-download');
+  const portfolioStatus = document.querySelector('.portfolio-status');
+  let portfolioState = null;
 
   function updateCopyText() {
     if (!copyButton || !status) return;
@@ -81,10 +85,7 @@
       element.alt = words[element.dataset.i18nAlt];
     });
     languageButtons.forEach(button => button.setAttribute('aria-pressed', String(button.dataset.language === language)));
-    if (portfolioCard) {
-      portfolioCard.href = `assets/ksyu-smm-portfolio-${language}.pdf`;
-      portfolioCard.hreflang = language;
-    }
+    if (portfolioStatus) portfolioStatus.textContent = portfolioState ? words[portfolioState] : '';
     updateCopyText();
     try { localStorage.setItem('ksyu-language', language); } catch (_) {}
   }
@@ -101,6 +102,30 @@
   try { savedLanguage = localStorage.getItem('ksyu-language'); } catch (_) {}
   setLanguage(savedLanguage);
   languageButtons.forEach(button => button.addEventListener('click', () => setLanguage(button.dataset.language)));
+  // Join the original presentation's two byte-exact parts into one download.
+  portfolioDownload?.addEventListener('click', async () => {
+    portfolioDownload.disabled = true;
+    const setStatus = key => { portfolioState = key; if (portfolioStatus) portfolioStatus.textContent = translations[language][key]; };
+    setStatus('portfolioLoading');
+    try {
+      const parts = await Promise.all(['00', '01'].map(async suffix => {
+        const response = await fetch(`assets/smm-portfolio-pptx.part${suffix}`);
+        if (!response.ok) throw new Error('Presentation unavailable');
+        return response.arrayBuffer();
+      }));
+      if (parts.reduce((sum, part) => sum + part.byteLength, 0) !== 16961457) throw new Error('Incomplete presentation');
+      const url = URL.createObjectURL(new Blob(parts, { type: 'application/vnd.openxmlformats-officedocument.presentationml.presentation' }));
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'Ksyusha_SMM_Portfolio_New_Cases.pptx';
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 60000);
+      setStatus('portfolioReady');
+    } catch (_) { setStatus('portfolioError'); }
+    finally { portfolioDownload.disabled = false; }
+  });
   if (!field || !help || !status || !manual || !copyButton || !card) return;
 
   function showResult(copied) {
