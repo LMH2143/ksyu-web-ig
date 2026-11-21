@@ -1,0 +1,52 @@
+KSYU — PÁGINA DE ENLACES CON PORTAFOLIO SMM
+
+ZIP: Ksyu_Links_Cloudflare_SMM_Idioma_Fijo.zip
+Listo para actualizar el proyecto existente en Cloudflare Pages con carga directa.
+index.html, style.css, script.js y assets deben quedar en la raíz del despliegue.
+No requiere instalación ni compilación.
+
+PORTAFOLIO SMM
+Se añadió una única tarjeta al final de los enlaces principales.
+La miniatura usa la imagen proporcionada, optimizada para móvil.
+El selector de idioma de la página determina qué PDF abre la tarjeta:
+RU → assets/ksyu-smm-portfolio-ru.pdf
+EN → assets/ksyu-smm-portfolio-en.pdf
+El PDF se abre en una pestaña nueva. Ambos documentos están incluidos tal
+como fueron entregados, sin cambiar contenido ni diseño.
+Ruso es el idioma inicial. Si el navegador lo permite, se recuerda la elección.
+Sin JavaScript, el enlace inicial al portafolio ruso sigue funcionando.
+
+ENLACES CONSERVADOS
+Libro Discipline: https://amzn.eu/d/0dTe6EsC
+Cabello: https://www.instagram.com/ksy_ssa_?stkn=bzNhbnEwaGxidWZ0
+Russian with Ksyu: https://ksyu-com-finalv7.pages.dev/
+Pilates 1:1: https://ig.me/m/ksy_ssa_
+
+PILATES
+Se conserva el mensaje ruso para la clase de prueba gratuita. La página
+intenta copiarlo al pulsar Pilates y abre Instagram. El visitante debe pegarlo
+y enviarlo. Si falla la copia automática, puede copiarlo manualmente desde
+la ayuda bajo los enlaces. No se envían mensajes automáticamente.
+
+EDICIÓN
+Enlaces y estructura: index.html.
+Traducciones: translations en script.js y el texto ruso inicial de index.html.
+Diseño: style.css. Archivos e imágenes: assets.
+CSS, JavaScript y la nueva miniatura llevan una versión de caché actualizada.
+
+VALIDACIÓN
+320 × 568, 375 × 667, 393 × 852, 430 × 932, horizontal 844 × 390
+y escritorio 1440 × 900, con emulación en Chromium.
+Sin desbordamiento horizontal ni textos cortados en ambos idiomas.
+Comprobados: cambio de PDF con EN/RU, clic que abre cada destino,
+respuesta PDF correcta, persistencia del idioma, portapapeles de Pilates,
+texto al 200% y enlace ruso con JavaScript desactivado.
+Pruebas de móvil emuladas; no se utilizó un iPhone físico.
+
+SELECTOR DE IDIOMA FIJO
+EN/RU permanece visible arriba a la derecha al desplazarse por la página.
+Fondo translúcido con borde y desenfoque discreto, respetando las áreas
+seguras de iOS. Se alinea con el contenido también en pantallas grandes.
+Se verificó la posición al final de la página y el cambio de idioma sin
+regresar al inicio. El portafolio conserva la apertura del PDF seleccionado.
+CSS actualizado a la versión 10 para caché.
